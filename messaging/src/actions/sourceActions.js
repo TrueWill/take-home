@@ -72,10 +72,10 @@ export function fetchMessagesForSourceFailed(error) {
 }
 
 // thunk - status (filter) is optional
-export function fetchMessagesForSource(sourceId, status) {
+export function fetchMessagesForSource(sourceId, status, page) {
   return dispatch =>
     api
-      .fetchMessagesForSource(sourceId, status)
+      .fetchMessagesForSource(sourceId, status, page)
       .then(resp => {
         return dispatch(fetchMessagesForSourceSucceeded(resp.data));
       })

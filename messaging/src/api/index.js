@@ -33,8 +33,12 @@ export function fetchSource(id) {
 }
 
 // status (filter) is optional
-export function fetchMessagesForSource(sourceId, status) {
-  const queryString = status ? '?status=' + status : '';
+export function fetchMessagesForSource(sourceId, status, page) {
+  let queryString = status ? '?status=' + status : '';
+
+  if (page) {
+    queryString = '?page=' + page;
+  }
 
   return client.get(
     `/source/${sourceId}/message${queryString}`,

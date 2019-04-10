@@ -2,10 +2,16 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function Messages({ sourceId, status, messages, fetchMessagesForSource }) {
+function Messages({
+  sourceId,
+  status,
+  messages,
+  page,
+  fetchMessagesForSource
+}) {
   useEffect(
     () => {
-      fetchMessagesForSource(sourceId, status);
+      fetchMessagesForSource(sourceId, status, page);
     },
     [sourceId, status]
   );
@@ -29,6 +35,7 @@ function Messages({ sourceId, status, messages, fetchMessagesForSource }) {
 Messages.propTypes = {
   sourceId: PropTypes.string.isRequired,
   status: PropTypes.string,
+  page: PropTypes.number,
   messages: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,

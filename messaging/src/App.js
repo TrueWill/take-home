@@ -22,7 +22,9 @@ function App() {
         <Route
           path="/source/:sourceId/messages"
           exact
-          render={props => <Messages sourceId={props.match.params.sourceId} />}
+          render={props => (
+            <Messages sourceId={props.match.params.sourceId} page={2} />
+          )}
         />
         <Route
           path="/source/:sourceId/messages/:status"
