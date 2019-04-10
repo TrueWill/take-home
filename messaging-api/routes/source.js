@@ -23,17 +23,26 @@ router.get('/:id', (req, res) => {
     .catch(err => errorHandler(err, res));
 });
 
-// Optional ?status=value
+// Optional ?status=value or ?page=N
 router.get('/:id/message', (req, res) => {
   const id = req.params.id;
   const status = req.query.status;
+  const page = req.query.page;
 
-  const queryPromise = status
-    ? repository.getMessagesForSourceWithStatus(id, status)
-    : repository.getMessagesForSource(id);
+  let queryPromise;
+
+  if (page) {
+    queryPromise = repository.getMessagesForSourcePaginated(id, page);
+  } else {
+    queryPromise = status
+      ? repository.getMessagesForSourceWithStatus(id, status)
+      : repository.getMessagesForSource(id);
+  }
 
   queryPromise
-    .then(messages => res.status(200).json(messages))
+    .then(messages => {
+      res.status(200).json(messages);
+    })
     .catch(err => errorHandler(err, res));
 });
 

@@ -66,6 +66,25 @@ function getMessagesForSource(sourceId) {
   );
 }
 
+const pageSize = 30;
+
+function getMessagesForSourcePaginated(sourceId, page) {
+  return query(
+    `SELECT id, message, status, created_at, updated_at
+    FROM message
+    WHERE source_id = $sourceId
+      AND deleted_at IS NULL
+    ORDER BY id
+    LIMIT $pageSize
+    OFFSET $offset;`,
+    {
+      $sourceId: sourceId,
+      $offset: page - 1,
+      $pageSize: pageSize
+    }
+  );
+}
+
 function getMessagesForSourceWithStatus(sourceId, status) {
   return query(
     `SELECT id, message, status, created_at, updated_at
@@ -205,6 +224,7 @@ module.exports = {
   getSource,
   getMessagesForSource,
   getMessagesForSourceWithStatus,
+  getMessagesForSourcePaginated,
   getMessageStatusCountsForSource,
   getMessages,
   getMessage,
